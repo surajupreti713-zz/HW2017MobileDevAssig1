@@ -9,6 +9,7 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.suraj.tictactoe.TicTacToeLogic.TTTElement.EMPTY;
 import static com.suraj.tictactoe.TicTacToeLogic.TTTElement.O;
 import static com.suraj.tictactoe.TicTacToeLogic.TTTElement.X;
 import static com.suraj.tictactoe.TicTacToeLogic.gameState;
@@ -71,15 +72,34 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
+        mNewGameButton.setOnClickListener(new View.OnClickListener() {      //this button, when clicked, will reset the state of the game as well as clear the text state of the buttons
+            @Override
+            public void onClick(View view) {
+                for(int i = 0; i < 9; i++) {
+                    gameState[i] = EMPTY;
+                    mButtons.get(i).setText("");
+                }
+                mNewGameButton.setVisibility(View.GONE);
+            }
+        });
 
     }
 
     public void didPressGameButton(int index) {
-        if (!gameState[index].equals(X)) {
+        if (!(gameState[index].equals(X) || gameState[index].equals(O))) {
             gameState[index] = X;
             mButtons.get(index).setText("X");
+            int bestMove = TicTacToeLogic.getBestMove(gameState);
+
+            if (bestMove == -1) {
+                mNewGameButton.setVisibility(View.VISIBLE);
+            }
+            else {
+                gameState[bestMove] = O;
+                mButtons.get(bestMove).setText("O");
+            }
         }
-        int bestMove = TicTacToeLogic.getBestMove(gameState);
+        /*int bestMove = TicTacToeLogic.getBestMove(gameState);
 
         //Log.d("da", String.valueOf(bestMove));
         if (bestMove == -1) {
@@ -88,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             gameState[bestMove] = O;
             mButtons.get(bestMove).setText("O");
-        }
+        }*/
 
     }
 }
