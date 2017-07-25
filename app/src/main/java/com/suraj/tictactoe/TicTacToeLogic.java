@@ -7,7 +7,7 @@ package com.suraj.tictactoe;
 import static com.suraj.tictactoe.TicTacToeLogic.TTTElement.*;
 
 public class TicTacToeLogic {
-    TicTacToeLogic.TTTElement[] gameState =
+    static TTTElement[] gameState =
             {EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
 
 
@@ -44,6 +44,7 @@ public class TicTacToeLogic {
     private static int minimax(TTTElement[] gameState, boolean isMaximizer) {
         int score = evaluate(gameState);
         if (score == 10 || score == -10) return score;
+
         if (!hasMoves(gameState)) return 0;
 
         if (isMaximizer) { //find best move to maximize for comp player
